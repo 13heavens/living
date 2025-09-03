@@ -484,11 +484,13 @@ func (l *Living) Tick(tx *world.Tx, current int64) {
 		}
 	}
 
-	m := l.mc.TickMovement(l, l.Position(), l.Velocity(), l.Rotation(), tx)
-	m.Send()
+	if l.mc != nil {
+		m := l.mc.TickMovement(l, l.Position(), l.Velocity(), l.Rotation(), tx)
+		m.Send()
 
-	l.data.Vel = m.Velocity()
-	l.Move(m.Position().Sub(l.Position()), 0, 0, tx)
+		l.data.Vel = m.Velocity()
+		l.Move(m.Position().Sub(l.Position()), 0, 0, tx)
+	}
 }
 
 // Variant ...
